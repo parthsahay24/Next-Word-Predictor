@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next Word Predictor | AI/ML</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- Side Panel Tab Icons -->
+    <div class="side-icons" id="sideIcons">
+        <button class="icon-btn active" data-panel="model" title="Model Info">🧠</button>
+        <button class="icon-btn" data-panel="context" title="Context Window">👁️</button>
+        <button class="icon-btn" data-panel="stack" title="Tech Stack">⚙️</button>
+        <button class="icon-btn" data-panel="data" title="Training Data">📊</button>
+    </div>
+
+    <!-- Sliding Side Panel -->
+    <div class="side-panel" id="sidePanel">
+        <button class="panel-close" id="panelClose">›</button>
+        <div class="panel-content">
+            <div class="panel-card" id="card-model">
+                <span class="card-icon">🧠</span>
+                <div>
+                    <div class="card-title">Architecture</div>
+                    <div class="card-value">Deep Learning Neural Network</div>
+                    <div class="card-sub">2-Layer Stacked LSTM · 5M Params</div>
+                </div>
+            </div>
+            <div class="panel-card" id="card-context">
+                <span class="card-icon">👁️</span>
+                <div>
+                    <div class="card-title">Context Window</div>
+                    <div class="card-value">Reads 10 words</div>
+                    <div class="card-sub">Sliding n-gram sequence model</div>
+                </div>
+            </div>
+            <div class="panel-card" id="card-stack">
+                <span class="card-icon">⚙️</span>
+                <div>
+                    <div class="card-title">Tech Stack</div>
+                    <div class="card-value">Python · PyTorch · Flask</div>
+                    <div class="card-sub">Adam optimizer · Temperature sampling</div>
+                </div>
+            </div>
+            <div class="panel-card" id="card-data">
+                <span class="card-icon">📊</span>
+                <div>
+                    <div class="card-title">Training Data</div>
+                    <div class="card-value">52,000 words trained</div>
+                    <div class="card-sub">AI/ML Wikipedia corpus</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="container">
+        <header>
+            <div class="badge">Deep Learning NLP</div>
+            <h1>Next Word Predictor</h1>
+            <p>An LSTM-based language model trained to predict the next sequential word with temperature scaling.</p>
+        </header>
+
+        {% if not model_loaded %}
+        <div class="alert danger">
+            <strong>Model Not Found!</strong> Please run <code>python train.py</code> to train the LSTM model first.
+        </div>
+        {% endif %}
+
+        <div class="glass-panel">
+            <div class="editor-container">
+                <textarea
+                    id="text-input"
+                    placeholder="Start typing a sentence here..."
+                    class="glass-input"
+                    autofocus
+                ></textarea>
+
+                <div class="suggestions-container">
+                    <div class="suggestions-loader" id="loader">
+                        <div class="spinner"></div>
+                        <span>Analyzing context...</span>
+                    </div>
+                    <ul id="suggestions-list" class="suggestions-list"></ul>
+                </div>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label for="temperature">Creativity (Temperature)</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="temperature" min="0.1" max="2.0" step="0.1" value="0.8">
+                        <span id="temp-value">0.8</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="top-k">Max Predictions (Top-K)</label>
+                    <div class="slider-wrapper">
+                        <input type="range" id="top-k" min="3" max="10" step="1" value="5">
+                        <span id="top-k-value">5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
