@@ -110,6 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     top_k: parseInt(topkSlider.value)
                 })
             });
+                        // 502/503 from Render return an empty body — don't try to parse JSON
+            if (!response.ok) {
+                loader.classList.remove('active');
+                suggestionsList.innerHTML = '<li class="suggestion-chip" style="opacity:0.6;cursor:default;">Server warming up, retry in a moment…</li>';
+                console.warn('Server error:', response.status);
+                return;
+            }
+
             const data = await response.json();
             loader.classList.remove('active');
             if (data.error) { console.error('API Error:', data.error); return; }
