@@ -33,5 +33,5 @@ TEMPERATURE = 0.8
 
 # Flask 
 FLASK_HOST = "0.0.0.0"
-FLASK_PORT = 5001
-FLASK_DEBUG = True
+FLASK_PORT = int(os.environ.get("PORT", 5001))
+FLASK_DEBUG = os.environ.get("FLASK_DEBUG", "false").lower() == "true"
