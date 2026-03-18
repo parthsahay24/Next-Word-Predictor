@@ -13,8 +13,15 @@ import re
 import os
 from collections import Counter
 
-import torch
-from torch.utils.data import Dataset
+# torch is only needed for training (NextWordDataset), not for inference.
+# Wrap in try/except so prediction-only servers (no torch installed) still work.
+try:
+    import torch
+    from torch.utils.data import Dataset as _Dataset
+    _TORCH_AVAILABLE = True
+except ImportError:
+    _TORCH_AVAILABLE = False
+    _Dataset = object  # fallback base so class definition doesn't fail
 
 import config
 
@@ -140,7 +147,7 @@ def load_corpus(path):
     return tokens
 
 
-class NextWordDataset(Dataset):
+class NextWordDataset(_Dataset):
     """
     PyTorch Dataset for next word prediction.
 
@@ -154,6 +161,8 @@ class NextWordDataset(Dataset):
     """
 
     def __init__(self, tokens, vocab, seq_length):
+        if not _TORCH_AVAILABLE:
+            raise ImportError("torch is required for training. Install it with: pip install torch")
         self.vocab = vocab
         self.seq_length = seq_length
         self.sequences = []
