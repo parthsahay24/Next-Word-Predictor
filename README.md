@@ -4,7 +4,7 @@
 
 An end-to-end Machine Learning web application that predicts the next likely word in a sentence based on context. Built from scratch using a multi-layer **Long Short-Term Memory (LSTM)** neural network in PyTorch, exported to **ONNX** for lightweight inference, served via a **Flask JSON API**, and wrapped in a premium real-time glassmorphism frontend.
 
-🌐 **Live Demo:** [next-word-predictor-yk51.onrender.com](https://next-word-predictor-yk51.onrender.com)
+🌐 **Live Demo:** [https://next-word-predictor-yk51.onrender.com](https://next-word-predictor-yk5l.onrender.com/)
 
 
 ---
